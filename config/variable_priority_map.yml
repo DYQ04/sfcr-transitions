@@ -1,0 +1,138 @@
+core_working_data:
+  id:
+    CHARLS: ["ID"]
+    ELSA: ["idauniqc"]
+    HRS: ["hhidpn"]
+    KLoSA: ["pid"]
+    LASI: ["hhid"]
+    MHAS: ["rahhidnp", "hhidc"]
+    SHARE: ["mergeid"]
+  wave:
+    CHARLS: ["wave"]
+    ELSA: ["wave"]
+    HRS: ["wave"]
+    KLoSA: ["wave"]
+    LASI: ["wave"]
+    MHAS: ["wave"]
+    SHARE: ["wave"]
+  interview_year:
+    CHARLS: ["iwy"]
+    ELSA: ["iwindy"]
+    HRS: ["iwendy", "iwindy"]
+    KLoSA: ["iwy"]
+    LASI: ["r1iwy"]
+    MHAS: ["iwy"]
+    SHARE: ["iwy"]
+  interview_month:
+    CHARLS: ["iwm"]
+    ELSA: ["iwindm"]
+    HRS: ["iwendm", "iwindm"]
+    KLoSA: ["iwm"]
+    LASI: ["r1iwm"]
+    MHAS: ["iwm"]
+    SHARE: ["iwm"]
+  marital_status:
+    CHARLS: ["marry"]
+    ELSA: ["mstath"]
+    HRS: ["mstath"]
+    KLoSA: ["mstath"]
+    LASI: ["r1mstath"]
+    MHAS: ["mstath"]
+    SHARE: ["mstath"]
+  child_count:
+    CHARLS: ["hchild", "hson", "hdau"]
+    ELSA: ["child", "son", "dau"]
+    HRS: []
+    KLoSA: ["child"]
+    LASI: ["r1child"]
+    MHAS: ["child", "son", "dau"]
+    SHARE: ["child", "son", "dau"]
+  co_resident_child:
+    CHARLS: ["hcoresd"]
+    ELSA: ["coresd"]
+    HRS: []
+    KLoSA: []
+    LASI: []
+    MHAS: []
+    SHARE: []
+  child_contact:
+    CHARLS: ["kcnt", "kcntf", "kcntpm"]
+    ELSA: []
+    HRS: []
+    KLoSA: []
+    LASI: []
+    MHAS: []
+    SHARE: []
+  self_rated_health:
+    CHARLS: ["srh"]
+    ELSA: ["shlt"]
+    HRS: ["shlt"]
+    KLoSA: ["shlt", "shlta"]
+    LASI: ["r1shlt", "r1shlta"]
+    MHAS: ["shlt"]
+    SHARE: ["shlt"]
+  depression:
+    CHARLS: ["cesd10"]
+    ELSA: ["cesd"]
+    HRS: ["cesd"]
+    KLoSA: ["cesd10a", "cesd10b"]
+    LASI: ["r1cesd10", "r1cesd10_l"]
+    MHAS: ["cesd_m"]
+    SHARE: ["eurod"]
+  cognition:
+    CHARLS: ["total_cognition", "z_cog29", "memory_z", "tcog_z_z", "recall"]
+    ELSA: ["tcog_z_z", "memory_z"]
+    HRS: ["cogtot", "cog27", "tcog_z_z", "memory_z"]
+    KLoSA: ["cog_total"]
+    LASI: ["r1cog_total"]
+    MHAS: []
+    SHARE: []
+  proxy:
+    CHARLS: []
+    ELSA: []
+    HRS: ["proxy"]
+    KLoSA: []
+    LASI: []
+    MHAS: ["proxy"]
+    SHARE: []
+supplement_wide:
+  wealth_candidates:
+    - "hh{wave}atotb"
+    - "h{wave}atotb"
+    - "hh{wave}atotw"
+    - "h{wave}atotw"
+    - "hh{wave}itot"
+    - "h{wave}itot"
+    - "wealth"
+    - "income_total"
+  child_count_candidates:
+    - "h{wave}child"
+    - "hh{wave}child"
+    - "child"
+    - "hchild"
+  co_resident_child_candidates:
+    - "h{wave}coresd"
+    - "h{wave}lvkids"
+    - "h{wave}lvspkid"
+    - "coresd"
+  child_contact_candidates:
+    - "h{wave}kcnt"
+    - "r{wave}kcnt"
+    - "h{wave}kcntf"
+    - "r{wave}kcntf"
+    - "h{wave}kcntpm"
+    - "r{wave}kcntpm"
+  partner_candidates:
+    - "r{wave}mstat"
+    - "r{wave}mstath"
+  proxy_candidates:
+    - "r{wave}proxy"
+  weight_candidates:
+    - "r{wave}lwtresp"
+    - "r{wave}wtresp"
+    - "r{wave}cwtresp"
+    - "r{wave}nwtresp"
+    - "r{wave}wthh"
+  shlt_candidates:
+    - "r{wave}shlt"
+    - "r{wave}shlta"

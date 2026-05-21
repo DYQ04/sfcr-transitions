@@ -1,0 +1,29 @@
+project_title: "Structural Family Care Reserve and Disability Transitions in Later Life"
+project_short: "sfcr_transitions"
+random_seed: 20260421
+age_min: 50
+share_country_required: true
+source_root_relative: "data_raw"
+output_formats:
+  figures: ["png", "pdf", "svg", "tiff"]
+  tables: ["csv", "xlsx", "md"]
+main_exposure:
+  primary: "sfcr_cat4"
+  alternatives: ["sfcr_score"]
+main_outcome:
+  state_definition: "adl5_count == 0 => independent; adl5_count >= 1 => disabled; death => dead"
+  strict_definition: "adl5_count >= 2"
+analysis:
+  one_stage_cluster: "respondent_id"
+  age_spline_df: 3
+  meta_method: "REML"
+defaults:
+  country_by_cohort:
+    CHARLS: "China"
+    ELSA: "United Kingdom"
+    HRS: "United States"
+    KLoSA: "South Korea"
+    LASI: "India"
+    MHAS: "Mexico"
+decision_log: "docs/decision_log.md"
+discarded_variables_log: "docs/discarded_variables.csv"
