@@ -1,51 +1,86 @@
 # sfcr-transitions
 
-Reproducible R code for the project:
+本仓库提供项目 **Structural Family Care Reserve and Disability Transitions in Later Life** 的可复现 R 分析代码。
 
-**Structural Family Care Reserve and Disability Transitions in Later Life**
+本项目基于 HRS-family 老龄化队列，围绕家庭照护结构储备与晚年失能转移之间的关系，整合 CHARLS（中国）、HRS（美国）、KLoSA（韩国）、MHAS（墨西哥）、SHARE（欧洲多国，保留 respondent country 作为 country-level 分析单元）和 ELSA（英格兰）等六个主要数据来源，完成跨队列数据整理、变量 harmonization、person-wave 转移区间构建、离散时间多状态模型估计、两阶段 meta 分析，以及论文图表所需结果文件的导出。整体流程旨在形成一套从原始队列文件到可复现统计结果和论文级图表的完整分析框架。
+<img width="1140" height="570" alt="image" src="https://github.com/user-attachments/assets/9bd12ab6-dc21-4665-a9e6-9b2f42cb928b" />
 
-The project harmonizes HRS-family ageing cohorts, builds person-wave transition
-intervals, estimates discrete-time multistate models, and exports manuscript-ready
-plotting data and figures. The final analysis is a six-cohort rerun using CHARLS,
-HRS, KLoSA, MHAS, SHARE, and ELSA; LASI is scanned by the harmonization workflow but
-excluded from the final interval-based rerun.
 
-## What is included
+## 仓库内容
 
-- R code from raw-data scanning to harmonized wave data, interval construction, models,
-  meta-analysis, tables, and final plotting data.
-- `targets` workflow for reproducible execution.
-- Raw-data folder placeholders.
-- A few low-resolution figure previews for orientation only.
+本仓库主要包含：
 
-## What is not included
+- 原始数据扫描、变量整理、区间构建、模型估计、meta 分析和图表导出的 R 代码；
+- 基于 `targets` 的可复现分析流程；
+- 原始数据目录占位文件；
+- 论文图表生成所需的脚本和辅助函数；
+- 用于说明项目结构和运行方式的文档文件。
 
-- No raw cohort data.
-- No derived individual-level data.
-- No source-data CSVs generated for figures.
-- No model objects or manuscript output folders.
+## 文件结构
 
-These files are intentionally excluded by `.gitignore`.
+```text
+sfcr-transitions/
+├── R/
+│   ├── 00_utils.R
+│   ├── 01_manifest.R
+│   ├── 02_prepare_long.R
+│   ├── 03_prepare_supplements.R
+│   ├── 04_harmonize.R
+│   ├── 05_codebooks.R
+│   ├── 06_intervals.R
+│   ├── 07_models.R
+│   ├── 08_meta_summary.R
+│   ├── 09_tables.R
+│   ├── 10_six_country_run.R
+│   ├── 11_nature_figures.R
+│   └── 12_nature_tables.R
+│
+├── data_raw/
+│   ├── CHARLS/
+│   ├── HRS/
+│   ├── KLoSA/
+│   ├── LASI/
+│   ├── MHAS/
+│   ├── SHARE/
+│   └── ELSA/
+│
+├── outputs/
+│   ├── figures/
+│   ├── tables/
+│   ├── source_data/
+│   └── model_summaries/
+│
+├── docs/
+│   └── figures/
+│
+├── renv/
+├── _targets.R
+├── run.R
+├── renv.lock
+├── .gitignore
+└── README.md
+```
 
-## Data setup
+## 数据准备
 
-Extract the supplied data archive into:
+请将各队列数据放置于 `data_raw/` 目录下，例如：
 
 ```text
 data_raw/
-  CHARLS/
-  HRS/
-  KLoSA/
-  LASI/
-  MHAS/
-  SHARE/
-  ELSA/
+├── CHARLS/
+├── HRS/
+├── KLoSA/
+├── LASI/
+├── MHAS/
+├── SHARE/
+└── ELSA/
 ```
 
-The code scans `data_raw/` recursively, so exact internal folder names can differ from
-the sketch above.
+代码会递归扫描 `data_raw/`，因此各队列内部文件夹名称不需要与上方示意完全一致。
 
-## Run
+## 运行方式
+
+首先安装并恢复 R 包环境：
 
 ```r
 install.packages("renv")
@@ -53,58 +88,35 @@ renv::restore()
 targets::tar_make()
 ```
 
-Or from a terminal:
+也可以在终端中运行：
 
 ```bash
 Rscript run.R
 ```
 
-Main generated outputs will appear under `outputs/`. These outputs are ignored by git.
+主要结果文件将生成在 `outputs/` 目录下。
 
-## Workflow
+## 脚本说明
 
-```mermaid
-flowchart LR
-  A["raw cohort files"] --> B["manifest"]
-  B --> C["working long data"]
-  C --> D["harmonized wave data"]
-  D --> E["person-wave intervals"]
-  E --> F["transition models"]
-  F --> G["meta-analysis and summaries"]
-  G --> H["plotting data and figures"]
-```
+- `R/00_utils.R`：通用函数、路径设置与队列目录配置。
+- `R/01_manifest.R`：扫描原始文件并生成数据清单。
+- `R/02_prepare_long.R`：读取各队列工作文件并整理为长格式数据。
+- `R/03_prepare_supplements.R`：整理辅助变量和补充数据来源。
+- `R/04_harmonize.R`：构建 harmonized wave-level 变量。
+- `R/05_codebooks.R`：导出变量 harmonization codebook。
+- `R/06_intervals.R`：构建 person-wave disability transition 区间。
+- `R/07_models.R`：估计 one-stage transition models。
+- `R/08_meta_summary.R`：执行 two-stage meta-analysis 并汇总结果。
+- `R/09_tables.R`：导出核心分析表格。
+- `R/10_six_country_run.R`：执行主分析流程并生成作图数据。
+- `R/11_nature_figures.R`：导出论文图件。
+- `R/12_nature_tables.R`：导出论文写作所需的最终表格。
 
-## Script map
+## 方法说明
 
-- `R/00_utils.R`: shared utilities and cohort catalog.
-- `R/01_manifest.R`: file audit and cohort manifest.
-- `R/02_prepare_long.R`: read cohort working files into long format.
-- `R/03_prepare_supplements.R`: prepare auxiliary source variables.
-- `R/04_harmonize.R`: construct harmonized wave-level variables.
-- `R/05_codebooks.R`: export harmonization codebooks.
-- `R/06_intervals.R`: build person-wave transition intervals.
-- `R/07_models.R`: one-stage transition models.
-- `R/08_meta_summary.R`: two-stage meta-analysis and result summaries.
-- `R/09_tables.R`: core table exports.
-- `R/10_six_country_run.R`: final six-cohort rerun and plotting-data products.
-- `R/11_nature_figures.R`: final R figure exports, starting from Figure 2; Figure 1 is intentionally not exported in this public code package.
-- `R/12_nature_tables.R`: final table bundle used for manuscript writing.
-
-## Preview figures
-
-These previews are included only to show the expected visual style; regenerate all
-analytic source data and final figures locally after placing the raw data in
-`data_raw/`.
-
-![Figure 2 preview](docs/figures/figure2_preview.png)
-
-![Figure 3 preview](docs/figures/figure3_preview.png)
-
-![Figure 4 preview](docs/figures/figure4_preview.png)
-
-## Notes
-
-- SHARE respondent country is preserved and used as the country-level unit.
-- ADL disability is reconstructed from five harmonized ADL items.
-- `SFCR` is defined from partnered status and living-child availability.
-- The repository is prepared for code sharing. It is not a data repository.
+- SHARE 保留 respondent country，并将其作为 country-level 分析单元。
+- ADL disability 基于五个 harmonized ADL 条目重建。
+- `SFCR` 根据是否有配偶/伴侣以及是否有存活子女定义。
+- 转移结局基于相邻 wave 间的状态变化构建，包括 independent、disabled 和 dead。
+- 主要模型采用离散时间多状态框架，并结合 one-stage 与 two-stage 分析结果进行汇总。
+- 本仓库用于代码共享和可复现分析展示，不作为数据仓库使用。
